@@ -7,6 +7,8 @@ public class CharacterMovement : MonoBehaviour
     Rigidbody rb;
     public float movementSpeed = 6f;
     public float jumpHigh = 5f;
+    public Transform groundCheck;
+    public LayerMask ground;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,11 +23,15 @@ public class CharacterMovement : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
 
         rb.velocity = new Vector3(horizontalInnput * movementSpeed, rb.velocity.y, verticalInput * movementSpeed);
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") && IsGrounded())
         {
             rb.velocity = new Vector3(rb.velocity.x, jumpHigh, rb.velocity.z);
-        }
-     
-       
+        }  
+    }
+
+
+    bool IsGrounded()
+    {
+         return Physics.CheckSphere(groundCheck.position, .1f, ground );
     }
 }
